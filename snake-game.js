@@ -55,7 +55,6 @@ function update() {
     verifyPoint();
 }
 
-// Detecta a tecla que está sendo pressionada e muda a direção
 document.addEventListener('keydown', function (event) {
     switch (event.key) {
         case ('ArrowUp'):
