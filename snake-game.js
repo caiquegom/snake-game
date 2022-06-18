@@ -1,5 +1,6 @@
 let stage = document.getElementById("stage");
 let context = stage.getContext('2d');
+let gameOver = false;
 
 let snake = {
     posY: [0],
@@ -10,6 +11,8 @@ let snake = {
 let movement = {
     x: 0,
     y: 1,
+    actualMovement: 'ArrowDown',
+    lastMovement: null,
 }
 
 let scorePoint = {
@@ -44,6 +47,7 @@ function move() {
 
     snake.posX[0] += movement.x * 25;
     snake.posY[0] += movement.y * 25;
+
     drawSnake(0);
 }
         
@@ -53,9 +57,11 @@ function update() {
     drawScorePoint();
     move();
     verifyPoint();
+    verifyBodyColision();
+    verifyStageLimitColision();
 }
 
-document.addEventListener('keydown', function (event) {
+document.addEventListener('keydown', function(event) {
     switch (event.key) {
         case ('ArrowUp'):
             movement.x = 0;
@@ -90,11 +96,25 @@ function drawScorePoint() {
 }
 
 generateScorePointCoordinates()
-setInterval(update, 80);
+let updateInterval = setInterval(update, 80);
 
 function verifyPoint() {
     if (snake.posX[0] === scorePoint.posX && snake.posY[0] === scorePoint.posY) {
         snake.newSquares++;
-        generateScorePointCoordinates()
+        generateScorePointCoordinates();
     } 
 }
+
+function verifyStageLimitColision() {
+    if (snake.posX[0] < 0 || snake.posX[0] === stage.width) {
+        clearInterval(updateInterval);
+    } else if (snake.posY[0] < 0 || snake.posY[0] === stage.height) {
+        clearInterval(updateInterval);
+    }
+}
+
+function verifyBodyColision() {
+    
+}
+
+
