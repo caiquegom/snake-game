@@ -1,0 +1,16 @@
+#stage {
+    background-color: black;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: absolute;
+    top: 400px;
+    left: 50%;
+    transform: translateX(-50%);
+}

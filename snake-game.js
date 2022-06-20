@@ -1,30 +1,124 @@
 let stage = document.getElementById("stage");
 let context = stage.getContext('2d');
-let gameOver = false;
+let updateInterval;
 
 let snake = {
-    posY: [0],
+    posY: [250],
     posX: [0],
     newSquares: 0,
 }
 
 let movement = {
-    x: 0,
-    y: 1,
-    actualMovement: 'ArrowDown',
-    lastMovement: null,
+    x: 1,
+    y: 0,
 }
 
-let scorePoint = {
-    posX: null,
-    posY: null,
+let apple = {
+    posX: 300,
+    posY: 250,
+}
+
+let keyControl = {
+    lastKey: null,
+    actualKey: null,
+}
+
+let options = document.getElementsByClassName('options')[0];
+// ================== GAME MENU ====================
+
+context.fillStyle = '#24fa20';
+context.font = '50px Arial';
+context.fillText('SNAKE GAME', 80, 100);
+context.fill();
+
+function startGame() {
+    updateInterval = setInterval(update, 80);
+    options.style.display = 'none'
+}
+
+function restartGame() {
+    snake = {
+        posY: [250],
+        posX: [0],
+        newSquares: 0,
+    }
+    
+    movement = {
+        x: 1,
+        y: 0,
+    }
+    
+    apple = {
+        posX: 300,
+        posY: 250,
+    }
+    
+    keyControl = {
+        lastKey: null,
+        actualKey: null,
+    }
+
+    startGame()
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ================== ON GOING GAME =========================
+
+function verifyKey(key) {
+    keyControl.lastKey = keyControl.actualKey;
+    keyControl.actualKey = key;
+
+    switch (keyControl.lastKey) {
+        case ('ArrowUp'):
+            if (keyControl.actualKey == 'ArrowDown'){
+                keyControl.actualKey = 'ArrowUp'
+            }
+            break;
+        case ('ArrowDown'):
+            if (keyControl.actualKey == 'ArrowUp'){
+                keyControl.actualKey = 'ArrowDown'
+            }
+            break;
+        case ('ArrowRight'):
+            if (keyControl.actualKey == 'ArrowLeft'){
+                keyControl.actualKey = 'ArrowRight'
+            }
+            break;
+        case ('ArrowLeft'):
+            if (keyControl.actualKey == 'ArrowRight'){
+                keyControl.actualKey = 'ArrowLeft'
+            }
+            break;
+    }
 }
 
 function drawSnake(i) {
     context.fillStyle = 'white'
     context.fillRect(snake.posX[i],snake.posY[i], 25,25);
     context.strokeRect(snake.posX[i],snake.posY[i], 25,25);
-    context.lineWidth = 2
+    context.lineWidth = 2;
     context.stroke();
     context.fill();
 }
@@ -34,7 +128,6 @@ function drawStage() {
     context.fillRect(0,0, 500,500);
     context.fill();
 }
-
 
 function move() {
     if (snake.newSquares != 0) {
@@ -54,7 +147,7 @@ function move() {
 
 function update() {   
     drawStage();
-    drawScorePoint();
+    drawApple();
     move();
     verifyPoint();
     verifyBodyColision();
@@ -62,7 +155,13 @@ function update() {
 }
 
 document.addEventListener('keydown', function(event) {
-    switch (event.key) {
+    if (snake.newSquares > 0) {
+       verifyKey(event.key);
+    } else {
+        keyControl.actualKey = event.key;
+    }
+
+    switch (keyControl.actualKey) {
         case ('ArrowUp'):
             movement.x = 0;
             movement.y = -1;
@@ -82,39 +181,51 @@ document.addEventListener('keydown', function(event) {
     }
 })
 
-function generateScorePointCoordinates() {
+function generateAppleCoordinates() {
     do{
-        scorePoint.posX = (Math.floor(Math.random() * 20)) * 25;
-        scorePoint.posY = (Math.floor(Math.random() * 20)) * 25;
-    } while(snake.posX.indexOf(scorePoint.posX) != -1 && snake.posY.indexOf(scorePoint.posY) != -1);
+        apple.posX = (Math.floor(Math.random() * 20)) * 25;
+        apple.posY = (Math.floor(Math.random() * 20)) * 25;
+    } while(snake.posX.indexOf(apple.posX) != -1 && snake.posY.indexOf(apple.posY) != -1);
 }
 
-function drawScorePoint() {
+function drawApple() {
     context.fillStyle = '#ff5b5b';
-    context.fillRect(scorePoint.posX,scorePoint.posY, 25,25);
+    context.fillRect(apple.posX,apple.posY, 25,25);
     context.fill()
 }
 
-generateScorePointCoordinates()
-let updateInterval = setInterval(update, 80);
+
 
 function verifyPoint() {
-    if (snake.posX[0] === scorePoint.posX && snake.posY[0] === scorePoint.posY) {
+    if (snake.posX[0] === apple.posX && snake.posY[0] === apple.posY) {
         snake.newSquares++;
-        generateScorePointCoordinates();
+        generateAppleCoordinates();
     } 
 }
 
 function verifyStageLimitColision() {
     if (snake.posX[0] < 0 || snake.posX[0] === stage.width) {
-        clearInterval(updateInterval);
+        gameOver();
     } else if (snake.posY[0] < 0 || snake.posY[0] === stage.height) {
-        clearInterval(updateInterval);
+        gameOver();
     }
 }
 
 function verifyBodyColision() {
-    
+    for (let index = 1; index < snake.posX.length; index++) {
+        if (snake.posX[0] === snake.posX[index] && snake.posY[0] === snake.posY[index]) {
+            gameOver();
+        }
+    }
 }
+
+function gameOver() {
+    clearInterval(updateInterval);
+    options.style.display = 'flex';
+}
+
+
+
+
 
 

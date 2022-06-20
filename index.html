@@ -4,17 +4,20 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-
-    <style>
-        #stage {
-            background-color: black;
-        }
-    </style>
+    <title>Snake Game</title>
+    <link rel="stylesheet" href="./style.css">
+    <script src="./snake-game.js" defer></script>
 </head>
 <body>
-    <canvas id="stage" width="500px" height="500px"></canvas>
+    <div class="game">
+        <canvas id="stage" width="500px" height="500px"></canvas>
 
-    <script src="./snake-game.js"></script>
+        <div class="options">
+            <button onclick="startGame()">Começar</button>
+            <button onclick="restartGame()">Recomeçar</button>
+        </div>  
+
+    </div>
+    
 </body>
 </html>
