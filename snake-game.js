@@ -1,5 +1,8 @@
 let stage = document.getElementById("stage");
 let context = stage.getContext('2d');
+
+let menuOptions = document.getElementsByClassName('options')[0]
+let infiniteBorder = false;
 let updateInterval;
 
 let snake = {
@@ -23,7 +26,6 @@ let keyControl = {
     actualKey: null,
 }
 
-let options = document.getElementsByClassName('options')[0];
 // ================== GAME MENU ====================
 
 context.fillStyle = '#24fa20';
@@ -31,9 +33,11 @@ context.font = '50px Arial';
 context.fillText('SNAKE GAME', 80, 100);
 context.fill();
 
+restart.style.display = 'none' 
+
 function startGame() {
     updateInterval = setInterval(update, 80);
-    options.style.display = 'none'
+    menuOptions.style.display = 'none';
 }
 
 function restartGame() {
@@ -61,28 +65,14 @@ function restartGame() {
     startGame()
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+function changeStageMode(button) {
+    infiniteBorder = !infiniteBorder;
+    if (infiniteBorder === false) {
+        button.innerHTML = 'Borda infinita: OFF';
+    } else {
+        button.innerHTML = 'Borda infinita: ON';
+    }
+}
 
 // ================== ON GOING GAME =========================
 
@@ -151,7 +141,7 @@ function update() {
     move();
     verifyPoint();
     verifyBodyColision();
-    verifyStageLimitColision();
+    verifyStageLimitColision(infiniteBorder);
 }
 
 document.addEventListener('keydown', function(event) {
@@ -203,12 +193,38 @@ function verifyPoint() {
     } 
 }
 
-function verifyStageLimitColision() {
-    if (snake.posX[0] < 0 || snake.posX[0] === stage.width) {
-        gameOver();
-    } else if (snake.posY[0] < 0 || snake.posY[0] === stage.height) {
-        gameOver();
+function verifyStageLimitColision(teleport) {
+    if (teleport === true) {
+        teleportSnake();
+    } else {
+        if (snake.posX[0] < 0 || snake.posX[0] === stage.width) {
+            gameOver();
+        } else if (snake.posY[0] < 0 || snake.posY[0] === stage.height) {
+            gameOver();
+        }
     }
+}
+
+function teleportSnake() {
+    for (let index in snake.posX) {
+
+        if (snake.posX[index] < 0) {
+            snake.posX[index] = 500;
+        }
+
+        if (snake.posX[index] > 500) {
+            snake.posX[index] = -25;
+        }
+
+        if (snake.posY[index] < 0) {
+            snake.posY[index] = 500;
+        }
+
+        if (snake.posY[index] > 500) {
+            snake.posY[index] = -25;
+        }
+    }
+
 }
 
 function verifyBodyColision() {
@@ -221,7 +237,9 @@ function verifyBodyColision() {
 
 function gameOver() {
     clearInterval(updateInterval);
-    options.style.display = 'flex';
+    menuOptions.style.display = 'flex';
+    start.style.display = 'none' 
+    restart.style.display = 'inline-block'
 }
 
 

@@ -1,8 +1,13 @@
+body{
+    background-color: rgb(42, 42, 42);
+}
+
 #stage {
     background-color: black;
     position: relative;
     left: 50%;
     transform: translateX(-50%);
+    border: #20d31d solid;
 }
 
 .options {
@@ -10,7 +15,29 @@
     flex-direction: column;
     gap: 10px;
     position: absolute;
-    top: 400px;
+    top: 300px;
     left: 50%;
     transform: translateX(-50%);
+}
+
+button {
+    background: black;
+    border: black solid;
+    color: #20d31d;
+    font-size: 20px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+button:hover {
+    border: #20d31d solid;
+}
+
+#start,
+#restart {
+    font-weight: bold;
+}
+
+#stageMode:hover {
+    border-inline: #20d31d solid;
+    border-block: black solid;
 }

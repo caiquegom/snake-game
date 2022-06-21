@@ -13,8 +13,9 @@
         <canvas id="stage" width="500px" height="500px"></canvas>
 
         <div class="options">
-            <button onclick="startGame()">Começar</button>
-            <button onclick="restartGame()">Recomeçar</button>
+            <button id="start" onclick="startGame()">Começar</button>
+            <button id="restart" onclick="restartGame()">Tentar novamente</button>
+            <button id="stageMode" onclick="changeStageMode(this)">Borda infinita: OFF</button>
         </div>  
 
     </div>
