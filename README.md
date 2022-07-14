@@ -13,5 +13,3 @@ Controle a cobra com as setas do teclado. Ela se movimenta sozinha, sendo necess
 - HTML
 - CSS
 - JavaScript
-
-# Link do jogo: https://caiquegom.github.io/snake-game/
