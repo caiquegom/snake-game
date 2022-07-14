@@ -1,4 +1,4 @@
-# snake-game
+# Snake game
 Replicação do famoso jogo da cobrinha!!
 
 # Como jogar?
