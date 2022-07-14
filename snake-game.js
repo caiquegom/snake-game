@@ -1,7 +1,7 @@
-let stage = document.getElementById("stage");
-let context = stage.getContext('2d');
+const stage = document.getElementById("stage");
+const context = stage.getContext('2d');
 
-let menuOptions = document.getElementsByClassName('options')[0]
+const menuOptions = document.getElementsByClassName('options')[0]
 let infiniteBorder = false;
 let updateInterval;
 
@@ -26,6 +26,8 @@ let keyControl = {
     actualKey: null,
 }
 
+const scoreboard = document.getElementById("scoreboard");
+
 // ================== GAME MENU ====================
 
 context.fillStyle = '#24fa20';
@@ -38,6 +40,8 @@ restart.style.display = 'none'
 function startGame() {
     updateInterval = setInterval(update, 80);
     menuOptions.style.display = 'none';
+    showScore();
+    updateScore();
 }
 
 function restartGame() {
@@ -184,11 +188,10 @@ function drawApple() {
     context.fill()
 }
 
-
-
 function verifyPoint() {
     if (snake.posX[0] === apple.posX && snake.posY[0] === apple.posY) {
         snake.newSquares++;
+        updateScore()
         generateAppleCoordinates();
     } 
 }
@@ -242,8 +245,13 @@ function gameOver() {
     restart.style.display = 'inline-block'
 }
 
+// ================== SCORE =========================
 
+function showScore() {
+    scoreboard.style.display = 'block'
+}
 
-
-
+function updateScore() {
+    scoreboard.innerHTML = `<p>Pontos: ${snake.newSquares}</p>`;
+}
 

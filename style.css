@@ -41,3 +41,18 @@ button:hover {
     border-inline: #20d31d solid;
     border-block: black solid;
 }
+
+#scoreboard {
+    display: none;
+
+    position: absolute;
+    top: 2%;
+    left: 50%;
+    transform: translate(-50%, -2%);
+
+
+    color: #20d31d56;
+
+    font-size: 25px;
+    font-weight: 700;
+}
